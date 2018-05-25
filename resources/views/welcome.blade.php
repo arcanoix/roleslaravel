@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="http://functiongraphics.com.ve">FG</a>
+                    <a href="http://gustavoherrera.net">Gustavo</a>
                     
                 </div>
             </div>
