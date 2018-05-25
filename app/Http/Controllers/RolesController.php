@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\User;
-
 use Caffeinated\Shinobi\Models\Role;
+use Caffeinated\Shinobi\Models\Permission;
 
-class UserController extends Controller
+class RolesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +16,9 @@ class UserController extends Controller
     public function index()
     {
         //
-        $users = User::paginate();
+        $roles = Role::paginate();
 
-       return view('users.index', compact('users'));
+       return view('roles.index', compact('roles'));
     }
 
     /**
@@ -31,7 +29,9 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('users.create');
+        $permissions = Permission::get();
+
+        return view('roles.create', compact('permissions'));
     }
 
     /**
@@ -43,10 +43,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $users = User::create($request->all());
+        $roles = Role::create($request->all());
 
-        return redirect()->route('users.edit', $users->id)
-                         ->with('info', 'Producto guardado con exito');
+        $role->permissions()->sync($request->get('permissions'));
+
+        return redirect()->route('roles.edit', $roles->id)
+                         ->with('info', 'Rol guardado con exito');
     }
 
     /**
@@ -55,10 +57,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Role $rol)
     {
         //
-        return view('users.show', compact('user'));
+        return view('roles.show', compact('rol'));
     }
 
     /**
@@ -67,12 +69,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Role $role)
     {
         //
-        $roles = Role::get();
+        $permissions = Permission::get();
 
-        return view('users.edit', compact('user','roles'));
+        return view('roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -82,17 +84,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Role $role)
     {
-        //actualiza primero el usuario
+        //actualiza primero el rol
 
-        $user->update($request->all());
+        $role->update($request->all());
 
-        //actualiza los roles
-        $user->roles()->sync($request->get('roles'));
+        //actualiza los permisos
+        $role->permissions()->sync($request->get('permissions'));
 
-        return redirect()->route('users.edit', $user->id)
-        ->with('info', 'Usuario actualizado con exito');
+        return redirect()->route('roles.edit', $role->id)
+        ->with('info', 'Rol actualizado con exito');
     }
 
     /**
@@ -101,10 +103,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Role $role)
     {
         //
-        $user->delete();
+        $role->delete();
 
         return back()->with('info', 'Eliminado Correctamente');
     }
