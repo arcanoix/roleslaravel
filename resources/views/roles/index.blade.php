@@ -13,7 +13,7 @@
                      @endcan
                 <div class="card-body">
 
-                        <table>
+                        <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -27,7 +27,7 @@
 
                                     <tr>
                                         <td>{{ $role->id }}</td>
-                                        <td></td>
+                                        <td>{{ $role->name }}</td>
                                         <td>
                                             @can('roles.show')
                                                 <a href="{{ route('roles.show', $role->id )}}" class="btn btn-sm btn-default">Ver</a>
@@ -42,7 +42,7 @@
                                             @can('roles.destroy')
                                                {!! Form::open(['route' =>  ['roles.destroy', $role->id], 'method' => 'DELETE']) !!}
                                                     <button class="btn btn-sm btn-danger">Eliminar</button>
-                                               {!! Form::close !!}
+                                               {!! Form::close() !!}
                                             @endcan
                                         </td>
                                            

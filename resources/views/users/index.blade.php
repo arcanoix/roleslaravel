@@ -8,12 +8,10 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Usuarios</div>
-                     @can('users.create')
-                        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary pull-right">Crear</a>
-                     @endcan
+                     
                 <div class="card-body">
 
-                        <table>
+                        <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -27,7 +25,7 @@
 
                                     <tr>
                                         <td>{{ $user->id }}</td>
-                                        <td></td>
+                                        <td>{{ $user->name }}</td>
                                         <td width="10px;">
                                             @can('users.show')
                                                 <a href="{{ route('users.show', $user->id )}}" class="btn btn-sm btn-default">Ver</a>
@@ -42,7 +40,7 @@
                                             @can('users.destroy')
                                                {!! Form::open(['route' =>  ['users.destroy', $user->id], 'method' => 'DELETE']) !!}
                                                     <button class="btn btn-sm btn-danger">Eliminar</button>
-                                               {!! Form::close !!}
+                                               {!! Form::close() !!}
                                             @endcan
                                         </td>
                                            
